@@ -412,15 +412,29 @@ export const ChatInterface = () => {
       return placeholder;
     });
     
-    // Parse text for bold formatting (*text*)
+    // Parse text for bold formatting (*text*) and newlines (\n)
     const parseTextFormatting = (text: string) => {
-      const parts = text.split(/(\*[^*]+\*)/g);
-      return parts.map((part, index) => {
-        if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
-          // Remove asterisks and make bold
-          return <strong key={index}>{part.slice(1, -1)}</strong>;
-        }
-        return part;
+      // First split by newlines to handle line breaks
+      const lines = text.split('\\n');
+      
+      return lines.map((line, lineIndex) => {
+        // Then handle bold formatting within each line
+        const parts = line.split(/(\*[^*]+\*)/g);
+        const formattedLine = parts.map((part, partIndex) => {
+          if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
+            // Remove asterisks and make bold
+            return <strong key={`${lineIndex}-${partIndex}`}>{part.slice(1, -1)}</strong>;
+          }
+          return part;
+        });
+        
+        // Add line break after each line except the last one
+        return (
+          <span key={lineIndex}>
+            {formattedLine}
+            {lineIndex < lines.length - 1 && <br />}
+          </span>
+        );
       });
     };
     
