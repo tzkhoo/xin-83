@@ -497,17 +497,26 @@ export const ChatInterface = () => {
 
         {/* Chat Interface */}
         <div className="w-full relative">
-           <div className={`glass-panel p-6 transition-all duration-500 relative bg-glass/90 backdrop-blur-xl ${
+           <div className={`glass-panel p-3 sm:p-6 transition-all duration-500 relative bg-glass/90 backdrop-blur-xl ${
               isAdvancedMode 
                 ? 'premium-glow premium-shine' 
                 : ''
             }`}>
+             
+             {/* AI Header - Icon and Name above messages on mobile */}
+             <div className="flex items-center justify-center gap-2 mb-4 sm:hidden">
+               <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${themeClasses.primary}`}>
+                 <Bot className={`w-4 h-4 ${themeClasses.foreground} ${isAdvancedMode ? 'text-golden animate-pulse' : ''}`} />
+               </div>
+               <span className="text-sm font-medium animate-float-gentle">Xin AI</span>
+             </div>
+
              {/* Messages */}
-             <div className="h-96 overflow-y-auto mb-4 space-y-4 relative z-20">
+             <div className="h-64 sm:h-96 overflow-y-auto mb-4 space-y-4 relative z-20">
               {messages.length === 0 ? (
-                <div className="text-center text-muted-foreground py-16">
-                  <div className="text-lg font-medium mb-2">Ready to assist you</div>
-                  <div className="text-sm">Ask me anything about banking, finance, or investments</div>
+                <div className="text-center text-muted-foreground py-8 sm:py-16">
+                  <div className="text-base sm:text-lg font-medium mb-2">Ready to assist you</div>
+                  <div className="text-xs sm:text-sm">Ask me anything about banking, finance, or investments</div>
                 </div>
               ) : (
                 <>
@@ -517,8 +526,8 @@ export const ChatInterface = () => {
                       className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                     >
                       <div className={`flex items-start gap-2 ${message.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-                        {/* Avatar */}
-                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${themeClasses.primary}`}>
+                        {/* Avatar - hidden on mobile for AI messages since it's now in header */}
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${themeClasses.primary} ${!message.isUser ? 'hidden sm:flex' : ''}`}>
                           {message.isUser ? (
                             <User className={`w-4 h-4 ${themeClasses.foreground}`} />
                            ) : (
@@ -527,17 +536,17 @@ export const ChatInterface = () => {
                         </div>
                         
                         {/* Message content */}
-                        <div className="flex flex-col gap-1">
-                           <div className={`text-xs font-medium ${message.isUser ? 'text-right' : 'text-left'}`}>
+                        <div className="flex flex-col gap-1 w-full">
+                           <div className={`text-xs font-medium ${message.isUser ? 'text-right' : 'text-left'} ${!message.isUser ? 'hidden sm:block' : ''}`}>
                               {message.isUser ? 'You' : <span className="animate-float-gentle">Xin AI</span>}
                             </div>
                           <div
                             className={`
-                              max-w-xs lg:max-w-md px-4 py-2 rounded-xl
+                              w-full max-w-[85vw] sm:max-w-xs lg:max-w-md px-3 sm:px-4 py-2 rounded-xl
                                ${message.isUser 
                                  ? isAdvancedMode 
-                                   ? `${themeClasses.primary} text-black` 
-                                   : `${themeClasses.primary} ${themeClasses.foreground}`
+                                   ? `${themeClasses.primary} text-black ml-auto` 
+                                   : `${themeClasses.primary} ${themeClasses.foreground} ml-auto`
                                 : isAdvancedMode
                                   ? `${themeClasses.bg} ${themeClasses.border} backdrop-blur-md border`
                                   : 'glass-panel'
@@ -552,21 +561,21 @@ export const ChatInterface = () => {
                   ))}
                   {isLoading && (
                     <div className="flex justify-start">
-                      <div className="flex items-start gap-2 flex-row">
-                        {/* Avatar */}
-                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${themeClasses.primary}`}>
+                      <div className="flex items-start gap-2 flex-row w-full">
+                        {/* Avatar - hidden on mobile */}
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${themeClasses.primary} hidden sm:flex`}>
                           <Bot className={`w-4 h-4 ${themeClasses.foreground}`} />
                         </div>
                         
                         {/* Message content */}
-                        <div className="flex flex-col gap-1">
-                           <div className="text-xs font-medium text-left">
+                        <div className="flex flex-col gap-1 w-full">
+                           <div className="text-xs font-medium text-left hidden sm:block">
                               <span className="animate-float-gentle">Xin AI</span>
                             </div>
-                          <div className={isAdvancedMode 
-                            ? `${themeClasses.bg} ${themeClasses.border} backdrop-blur-md px-4 py-2 rounded-xl border`
-                            : 'glass-panel px-4 py-2 rounded-xl'
-                          }>
+                          <div className={`w-full max-w-[85vw] sm:max-w-xs lg:max-w-md ${isAdvancedMode 
+                            ? `${themeClasses.bg} ${themeClasses.border} backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border`
+                            : 'glass-panel px-3 sm:px-4 py-2 rounded-xl'
+                          }`}>
                             <div className="flex items-center space-x-2">
                               <div className={`animate-spin rounded-full h-4 w-4 border-b-2 ${themeClasses.text.replace('text-', 'border-')}`}></div>
                               <span>AI is thinking...</span>
@@ -616,11 +625,7 @@ export const ChatInterface = () => {
             </div>
 
             {/* Security Status */}
-            <div className="flex items-center justify-between mb-2 px-2">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Shield className="w-3 h-3" />
-                <span>Secure Mode Active</span>
-              </div>
+            <div className="flex items-center justify-end mb-2 px-2">
               <div className="text-xs text-muted-foreground">
                 Requests remaining: {remainingRequests}
               </div>
