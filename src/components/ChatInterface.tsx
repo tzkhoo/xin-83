@@ -412,16 +412,28 @@ export const ChatInterface = () => {
       return placeholder;
     });
     
-    // Split content by image placeholders and reconstruct with images
+    // Parse text for bold formatting (*text*)
+    const parseTextFormatting = (text: string) => {
+      const parts = text.split(/(\*[^*]+\*)/g);
+      return parts.map((part, index) => {
+        if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
+          // Remove asterisks and make bold
+          return <strong key={index}>{part.slice(1, -1)}</strong>;
+        }
+        return part;
+      });
+    };
+    
+    // Split content by image placeholders and reconstruct with images and text formatting
     const parts = processedContent.split(/(__IMAGE_\d+__)/);
     
-  return parts.map((part, index) => {
+    return parts.map((part, index) => {
       const imageMatch = part.match(/^__IMAGE_(\d+)__$/);
       if (imageMatch) {
         const imageIndex = parseInt(imageMatch[1]);
         return images[imageIndex]?.element || part;
       }
-      return part ? <span key={index}>{part}</span> : null;
+      return part ? <span key={index}>{parseTextFormatting(part)}</span> : null;
     }).filter(Boolean);
   };
 
