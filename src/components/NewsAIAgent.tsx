@@ -31,7 +31,7 @@ const newsReels: NewsReel[] = [
     title: 'Fed Rate Cut Signals',
     summary: 'Federal Reserve hints at aggressive monetary easing affecting your tech holdings',
     impact: 'high',
-    thumbnail: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=600&fit=crop',
+    thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=600&fit=crop&crop=center',
     timestamp: '2m ago',
     likes: 2847,
     comments: 189,
@@ -43,7 +43,7 @@ const newsReels: NewsReel[] = [
     title: 'China Tech Breakthrough',
     summary: 'Semiconductor advancement impacts global supply chains and your positions',
     impact: 'high',
-    thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=600&fit=crop',
+    thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=600&fit=crop&crop=center',
     timestamp: '15m ago',
     likes: 1923,
     comments: 234,
@@ -55,7 +55,7 @@ const newsReels: NewsReel[] = [
     title: 'ESG Investment Surge',
     summary: 'Sustainable investing trends create new opportunities matching your profile',
     impact: 'medium',
-    thumbnail: 'https://images.unsplash.com/photo-1473081556163-2a17de81fc97?w=400&h=600&fit=crop',
+    thumbnail: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=600&fit=crop&crop=center',
     timestamp: '1h ago',
     likes: 1456,
     comments: 98,
@@ -206,6 +206,11 @@ export const NewsAIAgent = () => {
             src={newsReels[currentReel].thumbnail}
             alt={newsReels[currentReel].title}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              // Fallback image in case of loading error
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=600&fit=crop&crop=center';
+            }}
+            style={{ minHeight: '100%', minWidth: '100%' }}
           />
           
           {/* AI Badge */}
