@@ -8,7 +8,7 @@ import { toast } from '@/hooks/use-toast';
 import { ParentDashboard } from './ParentDashboard';
 import { RMDashboard } from './RMDashboard';
 import { Dashboard } from './Dashboard';
-import { NewsReels } from './NewsReels';
+import { NewsAIAgent } from './NewsAIAgent';
 import { 
   validateAndSanitizeInput, 
   secureWebhookRequest, 
@@ -716,9 +716,9 @@ export const ChatInterface = () => {
         <Dashboard />
       </div>
 
-      {/* News Reels - Only for Client */}
+      {/* News AI Agent - Only for Client */}
       <div className="animate-fade-in" style={{ animationDelay: '900ms' }}>
-        <NewsReels />
+        <NewsAIAgent />
       </div>
       
       <PremiumUserTypeSlider userType={userType} setUserType={setUserType} />

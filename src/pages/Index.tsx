@@ -3,7 +3,7 @@ import { ChevronDown, ChevronUp, TrendingUp, TrendingDown, PieChart, Clock, Exte
 import { StarField } from '@/components/StarField';
 import { ChatInterface } from '@/components/ChatInterface';
 import { Dashboard } from '@/components/Dashboard';
-import { NewsReels } from '@/components/NewsReels';
+import { NewsAIAgent } from '@/components/NewsAIAgent';
 import { PortfolioSimulator } from '@/components/visualizer/PortfolioSimulator';
 import { Button } from '@/components/ui/button';
 import bankAiLogo from '@/assets/bank-ai-logo.png';
