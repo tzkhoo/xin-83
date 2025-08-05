@@ -327,7 +327,10 @@ export const ChatInterface = () => {
     
     // Check for markdown image syntax: ![alt](url) or direct image URLs
     const markdownImageRegex = /!\[(.*?)\]\((.*?)\)/g;
+    // Enhanced regex to detect chart URLs - more comprehensive URL patterns
     const urlImageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp|svg))/gi;
+    // New regex to detect any URL that could be a chart/image
+    const chartUrlRegex = /(https?:\/\/[^\s<>"'`]+)/gi;
     
     let processedContent = decodedContent;
     const images: { element: JSX.Element; placeholder: string }[] = [];
@@ -416,6 +419,61 @@ export const ChatInterface = () => {
       images.push({ element: imageElement, placeholder });
       return placeholder;
     });
+    
+    // For default chatbot mode only: Handle any URL that might be a chart
+    if (!isAdvancedMode) {
+      processedContent = processedContent.replace(chartUrlRegex, (url) => {
+        // Skip if already processed as markdown or image URL
+        if (url.match(/\.(?:png|jpg|jpeg|gif|webp|svg)$/i)) {
+          return url; // Already handled above
+        }
+        
+        const placeholder = `__IMAGE_${images.length}__`;
+        const imageElement = (
+          <Dialog key={`chart-${images.length}`}>
+            <DialogTrigger asChild>
+              <div className="relative group cursor-pointer">
+                <img 
+                  src={url} 
+                  alt="Chart" 
+                  className="max-w-full h-auto rounded-lg mt-2 mb-2 block hover:opacity-80 transition-opacity"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                  onError={(e) => {
+                    // If image fails to load, show the URL as a link instead
+                    const linkElement = document.createElement('a');
+                    linkElement.href = url;
+                    linkElement.target = '_blank';
+                    linkElement.className = 'text-primary hover:underline';
+                    linkElement.textContent = url;
+                    e.currentTarget.parentNode?.replaceChild(linkElement, e.currentTarget.parentNode);
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg flex items-center justify-center">
+                  <Expand className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl w-full">
+              <DialogHeader>
+                <DialogTitle>Chart View</DialogTitle>
+              </DialogHeader>
+              <div className="flex justify-center">
+                <img 
+                  src={url} 
+                  alt="Chart" 
+                  className="max-w-full max-h-[70vh] h-auto rounded-lg"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
+        );
+        images.push({ element: imageElement, placeholder });
+        return placeholder;
+      });
+    }
     
     // Parse text for bold formatting (*text*) and newlines (\n)
     const parseTextFormatting = (text: string) => {
