@@ -11,6 +11,8 @@ import { Dashboard } from './Dashboard';
 import { NewsAIAgent } from './NewsAIAgent';
 import { 
   validateAndSanitizeInput, 
+  validateAIResponse,
+  decodeHTMLEntities,
   secureWebhookRequest, 
   generateSecureUserId, 
   rateLimiter,
@@ -277,8 +279,8 @@ export const ChatInterface = () => {
         responseContent = `I understand you're asking about "${currentInput}". As your BOCHK AI Agent in ${isAdvancedMode ? 'Advanced Finance' : chatModes.find(m => m.id === selectedMode)?.title} mode for ${getUserTypeLabel(userType)}, I'm here to help you with that.`;
       }
       
-      // Validate AI response content
-      const responseValidation = validateAndSanitizeInput(responseContent, 'ai_response');
+      // Validate AI response content (using less aggressive validation)
+      const responseValidation = validateAIResponse(responseContent, secureUserId);
       
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
@@ -320,11 +322,14 @@ export const ChatInterface = () => {
 
 
   const renderMessageContent = (content: string) => {
+    // Decode HTML entities to fix gibberish symbols
+    const decodedContent = decodeHTMLEntities(content);
+    
     // Check for markdown image syntax: ![alt](url) or direct image URLs
     const markdownImageRegex = /!\[(.*?)\]\((.*?)\)/g;
     const urlImageRegex = /(https?:\/\/[^\s]+\.(?:png|jpg|jpeg|gif|webp|svg))/gi;
     
-    let processedContent = content;
+    let processedContent = decodedContent;
     const images: { element: JSX.Element; placeholder: string }[] = [];
     
     // Handle markdown images first

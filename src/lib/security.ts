@@ -116,7 +116,7 @@ class SecurityLogger {
 
 export const securityLogger = new SecurityLogger();
 
-// Input validation and sanitization
+// Input validation and sanitization for user input
 export function validateAndSanitizeInput(input: string, userId: string): {
   isValid: boolean;
   sanitized: string;
@@ -153,7 +153,7 @@ export function validateAndSanitizeInput(input: string, userId: string): {
     }
   }
   
-  // Basic HTML escape for any remaining content
+  // Basic HTML escape for user input only
   sanitized = sanitized
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -172,6 +172,48 @@ export function validateAndSanitizeInput(input: string, userId: string): {
     sanitized,
     violations
   };
+}
+
+// Separate validation for AI responses (less aggressive sanitization)
+export function validateAIResponse(response: string, userId: string): {
+  isValid: boolean;
+  sanitized: string;
+  violations: string[];
+} {
+  const violations: string[] = [];
+  let sanitized = response.trim();
+  
+  // Check for forbidden patterns (but don't HTML escape formatting)
+  for (const pattern of SECURITY_CONFIG.FORBIDDEN_PATTERNS) {
+    if (pattern.test(sanitized)) {
+      violations.push('Forbidden content detected in AI response');
+      securityLogger.log('security_violation', userId, 'Forbidden pattern in AI response', { pattern: pattern.source });
+      sanitized = sanitized.replace(pattern, '[REMOVED]');
+    }
+  }
+  
+  const isValid = violations.length === 0;
+  
+  if (!isValid) {
+    securityLogger.log('validation_error', userId, 'AI response validation failed', { violations });
+  }
+  
+  return {
+    isValid,
+    sanitized,
+    violations
+  };
+}
+
+// HTML entity decoder for rendering messages
+export function decodeHTMLEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&#39;/g, "'");
 }
 
 // Secure fetch wrapper with retry logic
