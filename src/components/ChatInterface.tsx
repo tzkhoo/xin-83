@@ -509,7 +509,7 @@ export const ChatInterface = () => {
             }`}>
              
               {/* Messages - Larger area for mobile with better text visibility */}
-              <div className="h-80 sm:h-96 overflow-y-auto mb-4 space-y-4 relative z-20">
+              <div className="h-96 sm:h-96 overflow-y-auto mb-4 space-y-4 relative z-20">
               {messages.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8 sm:py-16">
                   <div className="text-base sm:text-lg font-medium mb-2">Ready to assist you</div>

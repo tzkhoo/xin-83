@@ -4,9 +4,9 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 
 export const Dashboard = () => {
   const chartData = [
-    { name: 'Stocks', value: 65, color: '#10B981', amount: '$1,849,935' },
-    { name: 'Bonds', value: 25, color: '#3B82F6', amount: '$711,898' },
-    { name: 'Cash', value: 10, color: '#6B7280', amount: '$284,759' }
+    { name: 'Stocks', value: 65, color: '#10B981', amount: 'HK$1,849,935' },
+    { name: 'Bonds', value: 25, color: '#3B82F6', amount: 'HK$711,898' },
+    { name: 'Cash', value: 10, color: '#6B7280', amount: 'HK$284,759' }
   ];
 
   return (
@@ -22,7 +22,7 @@ export const Dashboard = () => {
               {/* Combined Total Value Card */}
               <div className="bg-gradient-to-r from-secondary/20 to-secondary/10 p-6 sm:p-8 rounded-xl border border-secondary/20 mb-6 text-center">
                 <div className="text-base sm:text-lg text-muted-foreground mb-3">Total Portfolio Value</div>
-                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">$2,847,592</div>
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">HK$2,847,592</div>
                 <div className="flex items-center justify-center gap-4 text-base sm:text-lg">
                   <span className="text-green-400 font-medium">+12.5% this month</span>
                 </div>
@@ -40,15 +40,15 @@ export const Dashboard = () => {
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span>Stocks (65%)</span>
-                          <span className="text-green-400">$1,849,935</span>
+                          <span className="text-green-400">HK$1,849,935</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Bonds (25%)</span>
-                          <span className="text-blue-400">$711,898</span>
+                          <span className="text-blue-400">HK$711,898</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Cash (10%)</span>
-                          <span className="text-gray-400">$284,759</span>
+                          <span className="text-gray-400">HK$284,759</span>
                         </div>
                       </div>
                     </div>
@@ -110,17 +110,17 @@ export const Dashboard = () => {
                     <div className="glass-panel p-4">
                       <div className="text-sm text-muted-foreground">Stocks</div>
                       <div className="text-2xl font-bold">65%</div>
-                      <div className="text-sm text-green-400">$1,849,935</div>
+                      <div className="text-sm text-green-400">HK$1,849,935</div>
                     </div>
                     <div className="glass-panel p-4">
                       <div className="text-sm text-muted-foreground">Bonds</div>
                       <div className="text-2xl font-bold">25%</div>
-                      <div className="text-sm text-blue-400">$711,898</div>
+                      <div className="text-sm text-blue-400">HK$711,898</div>
                     </div>
                     <div className="glass-panel p-4">
                       <div className="text-sm text-muted-foreground">Cash</div>
                       <div className="text-2xl font-bold">10%</div>
-                      <div className="text-sm text-gray-400">$284,759</div>
+                      <div className="text-sm text-gray-400">HK$284,759</div>
                     </div>
                     <div className="glass-panel p-4">
                       <div className="text-sm text-muted-foreground">Risk Score</div>
@@ -199,7 +199,7 @@ export const Dashboard = () => {
                     <DollarSign className="w-4 h-4 text-green-400 mt-0.5" />
                     <div>
                       <div className="text-sm font-medium">Dividend Income</div>
-                      <div className="text-xs text-muted-foreground">$4,832 this month</div>
+                      <div className="text-xs text-muted-foreground">HK$4,832 this month</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
