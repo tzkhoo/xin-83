@@ -37,7 +37,7 @@ export const SECURITY_CONFIG = {
 // Webhook URLs configuration (move from hardcoded)
 export const WEBHOOK_ENDPOINTS = {
   NORMAL_MODE: import.meta.env.VITE_NORMAL_WEBHOOK || 'https://wonder3.app.n8n.cloud/webhook/b9ab99b4-ccf9-43ca-a406-3b14c47362ec',
-  ADVANCED_MODE: import.meta.env.VITE_ADVANCED_WEBHOOK || 'https://wonder3.app.n8n.cloud/webhook/ad30832c-1f6b-4293-8eec-85490817e62d',
+  ADVANCED_MODE: import.meta.env.VITE_ADVANCED_WEBHOOK || 'https://wonder3.app.n8n.cloud/webhook-test/ad30832c-1f6b-4293-8eec-85490817e62d',
 } as const;
 
 // Rate limiting store
@@ -299,7 +299,7 @@ export const CSP_HEADERS = {
     "script-src 'self' 'unsafe-inline'", // Note: 'unsafe-inline' needed for React
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https:",
-    "connect-src 'self' https://wonder2.app.n8n.cloud",
+    "connect-src 'self' https://wonder3.app.n8n.cloud",
     "font-src 'self'",
     "frame-ancestors 'none'"
   ].join('; ')
